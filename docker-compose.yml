@@ -6,7 +6,6 @@ networks:
 
 services:
   kafka:
-    profiles: ["kafka"]
     image: apache/kafka:3.9.2
     container_name: kafka-${NODE_NAME}
     environment:
@@ -29,6 +28,3 @@ services:
     networks:
       - kafka_network
     restart: unless-stopped
-
-volumes:
-  es_data:
