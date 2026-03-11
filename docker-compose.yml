@@ -1,7 +1,7 @@
 version: '3.8'
 
 networks:
-  elk_network:
+  kafka_network:
     driver: bridge
 
 services:
@@ -27,7 +27,7 @@ services:
       - "9092:9092"
       - "9093:9093"
     networks:
-      - elk_network
+      - kafka_network
     restart: unless-stopped
 
 volumes:
