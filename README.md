@@ -238,7 +238,7 @@ docker exec -it kafka-kafka-node-01 \
 
 ```bash
 # Логи контейнера
-docker logs kafka-node-01 -f --tail 100
+docker logs kafka-kafka-node-01 -f --tail 100
 
 # Перезапуск
 docker compose restart kafka
