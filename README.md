@@ -188,8 +188,8 @@ docker compose up -d
 ### Статус quorum
 
 ```bash
-docker exec -it kafka-node-01 \
-  kafka-metadata-quorum.sh \
+docker exec -it kafka-kafka-node-01 \
+  /opt/kafka/bin/kafka-metadata-quorum.sh \
   --bootstrap-server localhost:9094 \
   describe --status
 ```
@@ -199,8 +199,8 @@ docker exec -it kafka-node-01 \
 ### Список брокеров
 
 ```bash
-docker exec -it kafka-node-01 \
-  kafka-broker-api-versions.sh \
+docker exec -it kafka-kafka-node-01 \
+  /opt/kafka/bin/kafka-broker-api-versions.sh \
   --bootstrap-server localhost:9094
 ```
 
