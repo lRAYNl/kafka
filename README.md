@@ -210,8 +210,8 @@ docker exec -it kafka-kafka-node-01 \
 
 ```bash
 # Создать топик kafka-logs вручную (если auto.create.topics не сработал)
-docker exec -it kafka-node-01 \
-  kafka-topics.sh \
+docker exec -it kafka-kafka-node-01 \
+  /opt/kafka/bin/kafka-topics.sh \
   --bootstrap-server localhost:9094 \
   --create \
   --topic kafka-logs \
@@ -219,12 +219,14 @@ docker exec -it kafka-node-01 \
   --replication-factor 3
 
 # Список топиков
-docker exec -it kafka-node-01 \
-  kafka-topics.sh --bootstrap-server localhost:9094 --list
+docker exec -it kafka-kafka-node-01 \
+  /opt/kafka/bin/kafka-topics.sh \
+  --bootstrap-server localhost:9094 \
+  --list
 
 # Детали топика
-docker exec -it kafka-node-01 \
-  kafka-topics.sh \
+docker exec -it kafka-kafka-node-01 \
+  /opt/kafka/bin/kafka-topics.sh \
   --bootstrap-server localhost:9094 \
   --describe \
   --topic kafka-logs
@@ -245,8 +247,8 @@ docker compose restart kafka
 docker compose down
 
 # Статус consumer group Logstash
-docker exec -it kafka-node-01 \
-  kafka-consumer-groups.sh \
+docker exec -it kafka-kafka-node-01 \
+  /opt/kafka/bin/kafka-consumer-groups.sh \
   --bootstrap-server localhost:9094 \
   --describe \
   --group logstash-diploma-v2
