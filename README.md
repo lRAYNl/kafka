@@ -234,12 +234,19 @@ docker logs kafka-node-01 --tail 50
 
 > Все kafka-команды внутри контейнера находятся по пути `/opt/kafka/bin/`.
 
+### Вписать для работоспособности проверок
+
+```bash
+docker exec -it kafka-node-01 bash -c "echo -e 'security.protocol=SSL\nssl.truststore.type=PEM\nssl.truststore.location=/etc/kafka/certs/ca.crt\nssl.endpoint.identification.algorithm=' > /tmp/client.properties"
+```
+
 ### Статус quorum
 
 ```bash
 docker exec -it kafka-node-01 \
   /opt/kafka/bin/kafka-metadata-quorum.sh \
-  --bootstrap-server localhost:9094 \
+  --bootstrap-server kafka-node-01:9094 \
+  --command-config /tmp/client.properties \
   describe --status
 ```
 
@@ -250,7 +257,8 @@ docker exec -it kafka-node-01 \
 ```bash
 docker exec -it kafka-node-01 \
   /opt/kafka/bin/kafka-broker-api-versions.sh \
-  --bootstrap-server localhost:9094
+  --bootstrap-server kafka-node-01:9094 \
+  --command-config /tmp/client.properties
 ```
 
 ---
@@ -261,7 +269,8 @@ docker exec -it kafka-node-01 \
 # Создать топик kafka-logs вручную (если auto.create.topics не сработал)
 docker exec -it kafka-node-01 \
   /opt/kafka/bin/kafka-topics.sh \
-  --bootstrap-server localhost:9094 \
+  --bootstrap-server kafka-node-01:9094 \
+  --command-config /tmp/client.properties \
   --create \
   --topic kafka-logs \
   --partitions 3 \
@@ -270,13 +279,15 @@ docker exec -it kafka-node-01 \
 # Список топиков
 docker exec -it kafka-node-01 \
   /opt/kafka/bin/kafka-topics.sh \
-  --bootstrap-server localhost:9094 \
+  --bootstrap-server kafka-node-01:9094 \
+  --command-config /tmp/client.properties \
   --list
 
 # Детали топика
 docker exec -it kafka-node-01 \
   /opt/kafka/bin/kafka-topics.sh \
-  --bootstrap-server localhost:9094 \
+  --bootstrap-server kafka-node-01:9094 \
+  --command-config /tmp/client.properties \
   --describe \
   --topic kafka-logs
 ```
@@ -298,7 +309,8 @@ docker compose down
 # Статус consumer group Logstash (появится только после первого подключения Logstash)
 docker exec -it kafka-node-01 \
   /opt/kafka/bin/kafka-consumer-groups.sh \
-  --bootstrap-server localhost:9094 \
+  --bootstrap-server kafka-node-01:9094 \
+  --command-config /tmp/client.properties \
   --describe \
   --group logstash-diploma-v2
 ```
