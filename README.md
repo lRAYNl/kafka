@@ -290,6 +290,24 @@ docker exec -it kafka-node-01 \
   --command-config /tmp/client.properties \
   --describe \
   --topic kafka-logs
+
+# Изменение топика и создание 3 partitions (для исправления проблемы с ненахождением filebeat'ом лидера)
+docker exec -it kafka-node-01 \
+  /opt/kafka/bin/kafka-topics.sh \
+  --bootstrap-server kafka-node-01:9094 \
+  --command-config /tmp/client.properties \
+  --alter \
+  --topic kafka-logs \
+  --partitions 3
+
+# Проверка списка партиций и относящийся к партиции брокер
+docker exec -it kafka-node-01 \
+  /opt/kafka/bin/kafka-topics.sh \
+  --bootstrap-server kafka-node-01:9094 \
+  --command-config /tmp/client.properties \
+  --describe \
+  --topic kafka-logs
+
 ```
 
 ---
